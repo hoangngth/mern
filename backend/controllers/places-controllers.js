@@ -23,7 +23,7 @@ const getPlaceById = async (req, res, next) => {
   if (!place) {
     return next(httpError("Could not find place with such id", 404));
   }
-  res.json({ place });
+  res.json({ place: place.toObject({ getters: true }) });
 };
 
 const getPlacesByUserId = async (req, res, next) => {
@@ -44,7 +44,9 @@ const getPlacesByUserId = async (req, res, next) => {
   if (!places || places.length === 0) {
     return next(httpError("Could not find place with such user id", 404));
   }
-  res.json({ places });
+  res.json({
+    places: places.map((place) => place.toObject({ getters: true })),
+  });
 };
 
 const createPlace = async (req, res, next) => {
@@ -76,6 +78,7 @@ const createPlace = async (req, res, next) => {
   try {
     user = await User.findById(creator);
   } catch (err) {
+    console.log("err", err);
     const error = httpError("Creating place failed, please try again.", 500);
     return next(error);
   }
@@ -95,6 +98,7 @@ const createPlace = async (req, res, next) => {
     await user.save({ session: session }); //save the newly updated user to session
     await session.commitTransaction();
   } catch (err) {
+    console.log("err", err);
     const error = httpError("Creating place failed, please try again.", 500);
     return next(error);
   }
