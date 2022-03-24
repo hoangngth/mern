@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const placeControllers = require("../controllers/places-controllers");
 const { check } = require("express-validator");
+const fileUpload = require("../middleware/file-upload");
 
 // Get all places
 router.get("/", placeControllers.getPlaces);
@@ -14,7 +15,8 @@ router.get("/user/:uid", placeControllers.getPlacesByUserId);
 
 // Create new place
 router.post(
-  "/create",
+  "/",
+  fileUpload.single("image"),
   [
     check("title").not().isEmpty(),
     check("description").isLength({ min: 5 }),

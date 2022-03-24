@@ -16,6 +16,7 @@ const getUsers = async (req, res, next) => {
 };
 
 const signup = async (req, res, next) => {
+  console.log("hey i clicked it");
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -43,7 +44,7 @@ const signup = async (req, res, next) => {
   const createdUser = new User({
     name,
     email,
-    image: "https://live.staticflickr.com/7631/26849088292_36fc52ee90_b.jpg",
+    image: req.file.path,
     password,
     places: [],
   });

@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 const placesRoutes = require("./routes/places-routes");
 const usersRoutes = require("./routes/users-routes");
 const httpError = require("./models/http-error");
@@ -9,6 +12,9 @@ const { default: mongoose } = require("mongoose");
 const app = express();
 
 app.use(bodyParser.json());
+
+app.use("/uploads/images", express.static(path.join("uploads", "images")));
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -28,6 +34,11 @@ app.use((req, res, next) => {
 
 //In an async task (e.g. in a promise), you need to use next(error) - throw error will NOT cause the error handling middleware to become active.
 app.use((error, req, res, next) => {
+  if (req.file) {
+    fs.unlink(req.file.path, (err) => {
+      console.log(err);
+    });
+  }
   if (res.headerSent) return next(error);
   res.status(error.code || 500);
   res.json({ message: error.message || "An unknown error occured" });
