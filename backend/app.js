@@ -53,5 +53,5 @@ const uri = `mongodb+srv://${process.env.DB_USERNAME}:${encodeURIComponent(
 
 mongoose
   .connect(uri)
-  .then(() => app.listen(5000))
+  .then(() => app.listen(process.env.PORT || 5000))
   .catch((error) => console.log("error", error));
