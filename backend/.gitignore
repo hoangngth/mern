@@ -23,4 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # image storage
-/uploads/images
+# /uploads/images/*
