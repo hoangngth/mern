@@ -1,0 +1,8 @@
+{
+  "env": {
+    "DB_USERNAME": "hoangnt",
+    "DB_PASSWORD": "R0xy@rts",
+    "DB_NAME": "places",
+    "JWT_SECRET_KEY": "hoang_secret"
+  }
+}

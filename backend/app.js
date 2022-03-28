@@ -44,10 +44,12 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occured" });
 });
 
-const mongoDbAtlasPassword = "R0xy@rts";
-const uri = `mongodb+srv://hoangnt:${encodeURIComponent(
+const mongoDbAtlasPassword = process.env.DB_PASSWORD;
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${encodeURIComponent(
   mongoDbAtlasPassword
-)}@cluster0.rex8x.mongodb.net/places?retryWrites=true&w=majority`;
+)}@cluster0.rex8x.mongodb.net/${
+  process.env.DB_NAME
+}?retryWrites=true&w=majority`;
 
 mongoose
   .connect(uri)
